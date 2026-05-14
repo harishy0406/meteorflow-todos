@@ -29,10 +29,15 @@ Visit **http://localhost:3000**
 ### Application Screenshots
 
 **Login Screen:**
-![Login Screen](placeholder-login.png)
+
+<img width="925" height="426" alt="image" src="https://github.com/user-attachments/assets/5cdabe1d-44c5-4a8e-9d46-1bc89917ad7c" />
+
 
 **Main Task Board:**
-![Task Board](placeholder-tasks.png)
+<img width="1909" height="576" alt="image" src="https://github.com/user-attachments/assets/aa09b6af-80c2-426f-8b9a-d54e4e3dd544" />
+<img width="985" height="505" alt="image" src="https://github.com/user-attachments/assets/5902a305-6753-477e-bf57-e5e38e25c7a7" />
+<img width="1228" height="634" alt="image" src="https://github.com/user-attachments/assets/d2a4611e-58d8-40e0-9e80-7c90daf9362f" />
+
 
 ## Tech Stack
 
