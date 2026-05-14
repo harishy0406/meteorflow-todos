@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI workflow
 
 on:
   push:
@@ -6,24 +6,16 @@ on:
   pull_request:
     branches: [ main, master ]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install Meteor
-        run: npm install -g meteor
-
-      - name: Install Dependencies
-        run: meteor npm install
-
-      - name: Build Meteor App
-        run: meteor build ../build --architecture os.linux.x86_64
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
