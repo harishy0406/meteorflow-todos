@@ -1,0 +1,24 @@
+<!-- imports/ui/loginForm.html -->
+<template name="loginForm">
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-logo">🚀</div>
+      <h2 class="auth-title">Meteorflow-todos</h2>
+      <p class="auth-subtitle">Sign in or create an account to continue.</p>
+
+      {{#if errorMsg}}
+        <div class="auth-error">{{errorMsg}}</div>
+      {{/if}}
+
+      <div class="auth-fields">
+        <input type="text" id="auth-username" class="auth-input" placeholder="Username" autocomplete="username" />
+        <input type="password" id="auth-password" class="auth-input" placeholder="Password" autocomplete="current-password" />
+      </div>
+
+      <div class="auth-buttons">
+        <button class="btn btn-login" id="login-btn">Log In</button>
+        <button class="btn btn-signup" id="signup-btn">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</template>

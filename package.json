@@ -1,0 +1,19 @@
+{
+  "name": "meteorflow-todos",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.23.5",
+    "jquery": "^3.7.1",
+    "meteor-node-stubs": "^1.2.12",
+    "sortablejs": "^1.15.7"
+  },
+  "meteor": {
+    "mainModule": {
+      "client": "client/main.js",
+      "server": "server/main.js"
+    }
+  }
+}

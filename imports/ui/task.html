@@ -1,0 +1,24 @@
+<!-- imports/ui/task.html -->
+<template name="task">
+  <li class="task-item {{#if checked}}task-completed{{/if}}" data-id="{{_id}}">
+
+    <!-- Drag handle -->
+    <span class="drag-handle" title="Drag to reorder">⋮⋮</span>
+
+    <!-- Checkbox -->
+    <input
+      type="checkbox"
+      class="task-checkbox"
+      {{#if checked}}checked{{/if}}
+    />
+
+    <!-- Category badge -->
+    <span class="category-badge category-{{categoryLower}}">{{category}}</span>
+
+    <!-- Task text -->
+    <span class="task-text">{{text}}</span>
+
+    <!-- Delete button -->
+    <button class="btn-delete" title="Delete task">✕</button>
+  </li>
+</template>

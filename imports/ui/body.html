@@ -1,0 +1,85 @@
+<!-- imports/ui/body.html -->
+<template name="body">
+  <div class="app-wrapper">
+    <header class="app-header">
+      <div class="header-left">
+        <span class="app-logo">🚀</span>
+        <h1 class="app-title">Meteorflow-todos</h1>
+      </div>
+      <div class="header-right">
+        {{#if currentUser}}
+          <span class="username-display">{{currentUser.username}}</span>
+          <button class="btn btn-logout" id="logout-btn">Logout</button>
+        {{/if}}
+      </div>
+    </header>
+
+    <main class="app-main">
+      {{#if currentUser}}
+        <section class="todo-section">
+
+          <!-- Task count -->
+          <div class="task-header">
+            <h2 class="task-count-label">
+              Todo List
+              <span class="task-count-badge">{{incompleteCount}}</span>
+            </h2>
+          </div>
+
+          <!-- Controls row -->
+          <div class="controls-row">
+            <label class="hide-completed-label">
+              <input type="checkbox" id="hide-completed-toggle" {{#if hideCompleted}}checked{{/if}} />
+              Hide Completed
+            </label>
+
+            <select id="category-filter" class="filter-select">
+              <option value="">All Categories</option>
+              {{#each categories}}
+                <option value="{{this}}" {{#if isSelectedCategory this}}selected{{/if}}>{{this}}</option>
+              {{/each}}
+            </select>
+          </div>
+
+          <!-- New task form -->
+          <div class="new-task-form">
+            <input
+              type="text"
+              id="task-text-input"
+              class="task-input"
+              placeholder="Type a new task..."
+              maxlength="200"
+            />
+            <select id="task-category-select" class="category-select">
+              {{#each categories}}
+                <option value="{{this}}">{{this}}</option>
+              {{/each}}
+            </select>
+            <button class="btn btn-add" id="add-task-btn">Add Task</button>
+          </div>
+
+          <!-- Error message display -->
+          {{#if errorMessage}}
+            <div class="error-toast">{{errorMessage}}</div>
+          {{/if}}
+
+          <!-- Task list -->
+          <ul class="task-list" id="task-list-sortable">
+            {{#each tasks}}
+              {{> task}}
+            {{/each}}
+          </ul>
+
+          {{#if isListEmpty}}
+            <div class="empty-state">
+              <p>No tasks yet. Add one above!</p>
+            </div>
+          {{/if}}
+
+        </section>
+      {{else}}
+        {{> loginForm}}
+      {{/if}}
+    </main>
+  </div>
+</template>
