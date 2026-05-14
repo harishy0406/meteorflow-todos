@@ -1,5 +1,5 @@
 <!-- imports/ui/body.html -->
-<template name="body">
+<template name="appBody">
   <div class="app-wrapper">
     <header class="app-header">
       <div class="header-left">
@@ -29,14 +29,14 @@
           <!-- Controls row -->
           <div class="controls-row">
             <label class="hide-completed-label">
-              <input type="checkbox" id="hide-completed-toggle" {{#if hideCompleted}}checked{{/if}} />
+              <input type="checkbox" id="hide-completed-toggle" checked="{{hideCompleted}}" />
               Hide Completed
             </label>
 
             <select id="category-filter" class="filter-select">
               <option value="">All Categories</option>
               {{#each categories}}
-                <option value="{{this}}" {{#if isSelectedCategory this}}selected{{/if}}>{{this}}</option>
+                <option value="{{this}}" selected="{{#if isSelectedCategory this}}selected{{/if}}">{{this}}</option>
               {{/each}}
             </select>
           </div>

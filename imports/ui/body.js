@@ -5,10 +5,9 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import Sortable from 'sortablejs';
 import { Tasks, CATEGORIES } from '../api/tasks.js';
 import './body.html';
-
 // ─── Template Reactive State ────────────────────────────────────────────────
 
-Template.body.onCreated(function () {
+Template.appBody.onCreated(function () {
   this.hideCompleted = new ReactiveVar(false);
   this.categoryFilter = new ReactiveVar('');
   this.errorMessage = new ReactiveVar('');
@@ -22,7 +21,7 @@ Template.body.onCreated(function () {
 
 // ─── SortableJS Initialization ───────────────────────────────────────────────
 
-Template.body.onRendered(function () {
+Template.appBody.onRendered(function () {
   const instance = this;
 
   // Re-initialize Sortable whenever tasks change (Blaze re-renders the list)
@@ -61,7 +60,7 @@ Template.body.onRendered(function () {
   });
 });
 
-Template.body.onDestroyed(function () {
+Template.appBody.onDestroyed(function () {
   if (this._sortable) {
     this._sortable.destroy();
   }
@@ -69,7 +68,7 @@ Template.body.onDestroyed(function () {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-Template.body.helpers({
+Template.appBody.helpers({
   tasks() {
     const instance = Template.instance();
     const hideCompleted = instance.hideCompleted.get();
@@ -115,7 +114,7 @@ Template.body.helpers({
 
 // ─── Events ──────────────────────────────────────────────────────────────────
 
-Template.body.events({
+Template.appBody.events({
   'click #add-task-btn'(event, instance) {
     const text = document.getElementById('task-text-input').value;
     const category = document.getElementById('task-category-select').value;

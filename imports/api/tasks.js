@@ -26,7 +26,7 @@ Meteor.methods({
    * Insert a new task.
    * Assigns order = (max existing order + 1) so new tasks go to the bottom.
    */
-  'tasks.insert'(text, category) {
+  async 'tasks.insert'(text, category) {
     check(text, String);
     check(category, String);
 
@@ -41,81 +41,84 @@ Meteor.methods({
     }
 
     // Find the current maximum order value for this user
-    const lastTask = Tasks.findOne(
+    const lastTask = await Tasks.findOneAsync(
       { userId: this.userId },
       { sort: { order: -1 }, fields: { order: 1 } }
     );
     const newOrder = lastTask ? lastTask.order + 1 : 0;
 
-    Tasks.insert({
+    const user = await Meteor.users.findOneAsync(this.userId);
+
+    await Tasks.insertAsync({
       text: text.trim(),
       category,
       order: newOrder,
       checked: false,
       createdAt: new Date(),
       userId: this.userId,
-      username: Meteor.users.findOne(this.userId).username,
+      username: user.username,
     });
   },
 
   /**
    * Delete a task. Only the owner can delete.
    */
-  'tasks.remove'(taskId) {
+  async 'tasks.remove'(taskId) {
     check(taskId, String);
 
     if (!this.userId) {
       throw new Meteor.Error('not-authorized', 'You must be logged in.');
     }
-    const task = Tasks.findOne(taskId);
+    const task = await Tasks.findOneAsync(taskId);
     if (!task || task.userId !== this.userId) {
       throw new Meteor.Error('not-authorized', 'You do not own this task.');
     }
 
-    Tasks.remove(taskId);
+    await Tasks.removeAsync(taskId);
   },
 
   /**
    * Toggle a task's checked (completion) status.
    */
-  'tasks.setChecked'(taskId, setChecked) {
+  async 'tasks.setChecked'(taskId, setChecked) {
     check(taskId, String);
     check(setChecked, Boolean);
 
     if (!this.userId) {
       throw new Meteor.Error('not-authorized', 'You must be logged in.');
     }
-    const task = Tasks.findOne(taskId);
+    const task = await Tasks.findOneAsync(taskId);
     if (!task || task.userId !== this.userId) {
       throw new Meteor.Error('not-authorized', 'You do not own this task.');
     }
 
-    Tasks.update(taskId, { $set: { checked: setChecked } });
+    await Tasks.updateAsync(taskId, { $set: { checked: setChecked } });
   },
 
   /**
    * Update the order of a task after drag-and-drop.
    * Receives the full ordered array of task IDs and updates each task's order field.
    */
-  'tasks.updateOrder'(orderedIds) {
+  async 'tasks.updateOrder'(orderedIds) {
     check(orderedIds, [String]);
 
     if (!this.userId) {
       throw new Meteor.Error('not-authorized', 'You must be logged in.');
     }
 
-    orderedIds.forEach((id, index) => {
-      const task = Tasks.findOne(id);
+    for (let index = 0; index < orderedIds.length; index++) {
+      const id = orderedIds[index];
+      const task = await Tasks.findOneAsync(id);
       if (task && task.userId === this.userId) {
-        Tasks.update(id, { $set: { order: index } });
+        await Tasks.updateAsync(id, { $set: { order: index } });
       }
-    });
+    }
   },
 
   /**
    * Update a task's category after creation.
    */
-  'tasks.updateCategory'(taskId, category) {
+  async 'tasks.updateCategory'(taskId, category) {
     check(taskId, String);
     check(category, String);
 
@@ -125,11 +128,11 @@ Meteor.methods({
     if (!CATEGORIES.includes(category)) {
       throw new Meteor.Error('invalid-category', `Category must be one of: ${CATEGORIES.join(', ')}.`);
     }
-    const task = Tasks.findOne(taskId);
+    const task = await Tasks.findOneAsync(taskId);
     if (!task || task.userId !== this.userId) {
       throw new Meteor.Error('not-authorized', 'You do not own this task.');
     }
 
-    Tasks.update(taskId, { $set: { category } });
+    await Tasks.updateAsync(taskId, { $set: { category } });
   },
 });
