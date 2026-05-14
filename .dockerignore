@@ -1,0 +1,9 @@
+node_modules
+.meteor/local
+.git
+.github
+Dockerfile
+.dockerignore
+error.md
+walkthrough.md
+*.log
